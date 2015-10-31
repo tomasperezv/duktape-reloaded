@@ -40,7 +40,7 @@
 
 #ifndef VERSION_H
 #include "os/version.h"
-#endif VERSION_H
+#endif
 
 #ifndef SYS_TYPES_H
 #include "sys/types.h"
@@ -1400,198 +1400,194 @@ struct utsname {
 extern "C" {
 #endif
 
-osapi int syscall(int syscallno, void *params);
+ int mount(const char *type, const char *mntto, const char *mntfrom, const char *opts);
+ int umount(const char *path);
 
-osapi int mkfs(const char *devname, const char *type, const char *opts);
-osapi int mount(const char *type, const char *mntto, const char *mntfrom, const char *opts);
-osapi int umount(const char *path);
+ int getfsstat(struct statfs *buf, size_t size);
+ int fstatfs(handle_t f, struct statfs *buf);
+ int statfs(const char *name, struct statfs *buf);
 
-osapi int getfsstat(struct statfs *buf, size_t size);
-osapi int fstatfs(handle_t f, struct statfs *buf);
-osapi int statfs(const char *name, struct statfs *buf);
+ handle_t open(const char *name, int flags, ...);
+ handle_t sopen(const char *name, int flags, int shflags, ...);
+ handle_t creat(const char *name, int mode);
+ int close(handle_t h);
+ int fsync(handle_t f);
+ handle_t dup(handle_t h);
+ handle_t dup2(handle_t h1, handle_t h2);
+ int read(handle_t f, void *data, size_t size);
+ int write(handle_t f, const void *data, size_t size);
+ int pread(handle_t f, void *data, size_t size, off64_t offset);
+ int pwrite(handle_t f, const void *data, size_t size, off64_t offset);
+ int ioctl(handle_t f, int cmd, const void *data, size_t size);
+ int readv(handle_t f, const struct iovec *iov, int count);
+ int writev(handle_t f, const struct iovec *iov, int count);
+ loff_t tell(handle_t f);
+ off64_t tell64(handle_t f);
+ loff_t lseek(handle_t f, loff_t offset, int origin);
+ off64_t lseek64(handle_t f, off64_t offset, int origin);
+ int ftruncate(handle_t f, loff_t size);
+ int ftruncate64(handle_t f, off64_t size);
+ int futime(handle_t f, struct utimbuf *times);
+ int utime(const char *name, struct utimbuf *times);
+ int fstat(handle_t f, struct stat *buffer);
+ int fstat64(handle_t f, struct stat64 *buffer);
+ int stat(const char *name, struct stat *buffer);
+ int stat64(const char *name, struct stat64 *buffer);
+ int lstat(const char *name, struct stat *buffer);
+ int lstat64(const char *name, struct stat64 *buffer);
+ int access(const char *name, int mode);
+ loff_t filelength(handle_t f);
+ off64_t filelength64(handle_t f);
+ int isatty(handle_t f);
 
-osapi handle_t open(const char *name, int flags, ...);
-osapi handle_t sopen(const char *name, int flags, int shflags, ...);
-osapi handle_t creat(const char *name, int mode);
-osapi int close(handle_t h);
-osapi int fsync(handle_t f);
-osapi handle_t dup(handle_t h);
-osapi handle_t dup2(handle_t h1, handle_t h2);
-osapi int read(handle_t f, void *data, size_t size);
-osapi int write(handle_t f, const void *data, size_t size);
-osapi int pread(handle_t f, void *data, size_t size, off64_t offset);
-osapi int pwrite(handle_t f, const void *data, size_t size, off64_t offset);
-osapi int ioctl(handle_t f, int cmd, const void *data, size_t size);
-osapi int readv(handle_t f, const struct iovec *iov, int count);
-osapi int writev(handle_t f, const struct iovec *iov, int count);
-osapi loff_t tell(handle_t f);
-osapi off64_t tell64(handle_t f);
-osapi loff_t lseek(handle_t f, loff_t offset, int origin);
-osapi off64_t lseek64(handle_t f, off64_t offset, int origin);
-osapi int ftruncate(handle_t f, loff_t size);
-osapi int ftruncate64(handle_t f, off64_t size);
-osapi int futime(handle_t f, struct utimbuf *times);
-osapi int utime(const char *name, struct utimbuf *times);
-osapi int fstat(handle_t f, struct stat *buffer);
-osapi int fstat64(handle_t f, struct stat64 *buffer);
-osapi int stat(const char *name, struct stat *buffer);
-osapi int stat64(const char *name, struct stat64 *buffer);
-osapi int lstat(const char *name, struct stat *buffer);
-osapi int lstat64(const char *name, struct stat64 *buffer);
-osapi int access(const char *name, int mode);
-osapi loff_t filelength(handle_t f);
-osapi off64_t filelength64(handle_t f);
-osapi int isatty(handle_t f);
+ int eof(handle_t f);
+ int umask(int mask);
+ int setmode(handle_t f, int mode);
 
-osapi int eof(handle_t f);
-osapi int umask(int mask);
-osapi int setmode(handle_t f, int mode);
+ int chmod(const char *name, int mode);
+ int fchmod(handle_t f, int mode);
+ int chown(const char *name, int owner, int group);
+ int fchown(handle_t f, int owner, int group);
 
-osapi int chmod(const char *name, int mode);
-osapi int fchmod(handle_t f, int mode);
-osapi int chown(const char *name, int owner, int group);
-osapi int fchown(handle_t f, int owner, int group);
+ int chdir(const char *name);
+ char *getcwd(char *buf, size_t size);
 
-osapi int chdir(const char *name);
-osapi char *getcwd(char *buf, size_t size);
+ int mkdir(const char *name, int mode);
+ int rmdir(const char *name);
 
-osapi int mkdir(const char *name, int mode);
-osapi int rmdir(const char *name);
+ int rename(const char *oldname, const char *newname);
+ int link(const char *oldname, const char *newname);
+ int unlink(const char *name);
 
-osapi int rename(const char *oldname, const char *newname);
-osapi int link(const char *oldname, const char *newname);
-osapi int unlink(const char *name);
+ handle_t _opendir(const char *name);
+ int _readdir(handle_t f, struct direntry *dirp, int count);
 
-osapi handle_t _opendir(const char *name);
-osapi int _readdir(handle_t f, struct direntry *dirp, int count);
+ int pipe(handle_t fildes[2]);
 
-osapi int pipe(handle_t fildes[2]);
+ void *vmalloc(void *addr, unsigned long size, int type, int protect, unsigned long tag);
+ int vmfree(void *addr, unsigned long size, int type);
+ void *vmrealloc(void *addr, unsigned long oldsize, unsigned long newsize, int type, int protect, unsigned long tag);
+ int vmprotect(void *addr, unsigned long size, int protect);
+ int vmlock(void *addr, unsigned long size);
+ int vmunlock(void *addr, unsigned long size);
+ void *vmmap(void *addr, unsigned long size, int protect, handle_t h, off64_t offset);
+ int vmsync(void *addr, unsigned long size);
 
-osapi void *vmalloc(void *addr, unsigned long size, int type, int protect, unsigned long tag);
-osapi int vmfree(void *addr, unsigned long size, int type);
-osapi void *vmrealloc(void *addr, unsigned long oldsize, unsigned long newsize, int type, int protect, unsigned long tag);
-osapi int vmprotect(void *addr, unsigned long size, int protect);
-osapi int vmlock(void *addr, unsigned long size);
-osapi int vmunlock(void *addr, unsigned long size);
-osapi void *vmmap(void *addr, unsigned long size, int protect, handle_t h, off64_t offset);
-osapi int vmsync(void *addr, unsigned long size);
+ int waitone(handle_t h, int timeout);
+ int waitall(handle_t *h, int count, int timeout);
+ int waitany(handle_t *h, int count, int timeout);
 
-osapi int waitone(handle_t h, int timeout);
-osapi int waitall(handle_t *h, int count, int timeout);
-osapi int waitany(handle_t *h, int count, int timeout);
+ handle_t mkevent(int manual_reset, int initial_state);
+ int epulse(handle_t h);
+ int eset(handle_t h);
+ int ereset(handle_t h);
 
-osapi handle_t mkevent(int manual_reset, int initial_state);
-osapi int epulse(handle_t h);
-osapi int eset(handle_t h);
-osapi int ereset(handle_t h);
+ handle_t mksem(int initial_count);
+ int semrel(handle_t h, int count);
 
-osapi handle_t mksem(int initial_count);
-osapi int semrel(handle_t h, int count);
+ handle_t mkmutex(int owned);
+ int mutexrel(handle_t h);
 
-osapi handle_t mkmutex(int owned);
-osapi int mutexrel(handle_t h);
+ handle_t mkiomux(int flags);
+ int dispatch(handle_t iomux, handle_t h, int events, int context);
+ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, const struct timeval *timeout);
+ int poll(struct pollfd fds[], unsigned int nfds, int timeout);
 
-osapi handle_t mkiomux(int flags);
-osapi int dispatch(handle_t iomux, handle_t h, int events, int context);
-osapi int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, const struct timeval *timeout);
-osapi int poll(struct pollfd fds[], unsigned int nfds, int timeout);
+ int sysinfo(int cmd, void *data, size_t size);
+ int uname(struct utsname *buf);
+ handle_t self();
+ void exitos(int mode);
+ void dbgbreak();
+ char *strerror(int errnum);
 
-osapi int sysinfo(int cmd, void *data, size_t size);
-osapi int uname(struct utsname *buf);
-osapi handle_t self();
-osapi void exitos(int mode);
-osapi void dbgbreak();
-osapi char *strerror(int errnum);
+ char *crypt(const char *key, const char *salt);
+ char *crypt_r(const char *key, const char *salt, char *buf);
 
-osapi char *crypt(const char *key, const char *salt);
-osapi char *crypt_r(const char *key, const char *salt, char *buf);
+ struct passwd *getpwnam(const char *name);
+ struct passwd *getpwuid(uid_t uid);
+ struct group *getgrnam(const char *name);
+ struct group *getgrgid(uid_t uid);
+ int initgroups(const char *user, gid_t basegid);
 
-osapi struct passwd *getpwnam(const char *name);
-osapi struct passwd *getpwuid(uid_t uid);
-osapi struct group *getgrnam(const char *name);
-osapi struct group *getgrgid(uid_t uid);
-osapi int initgroups(const char *user, gid_t basegid);
+ int getuid();
+ int getgid();
+ int setuid(uid_t uid);
+ int setgid(gid_t gid);
+ int geteuid();
+ int getegid();
+ int seteuid(uid_t uid);
+ int setegid(gid_t gid);
+ int getgroups(int size, gid_t list[]);
+ int setgroups(int size, const gid_t list[]);
 
-osapi int getuid();
-osapi int getgid();
-osapi int setuid(uid_t uid);
-osapi int setgid(gid_t gid);
-osapi int geteuid();
-osapi int getegid();
-osapi int seteuid(uid_t uid);
-osapi int setegid(gid_t gid);
-osapi int getgroups(int size, gid_t list[]);
-osapi int setgroups(int size, const gid_t list[]);
+ int suspend(handle_t thread);
+ int resume(handle_t thread);
+ struct tib *getthreadblock(handle_t thread);
+ handle_t getprochandle(pid_t pid);
+ void endthread(int status);
+ tid_t gettid();
+ pid_t getpid();
+ pid_t getppid();
+ int getchildstat(pid_t pid, int *status);
+ int setchildstat(pid_t pid, int status);
+ int setcontext(handle_t thread, void *context);
+ int getcontext(handle_t thread, void *context);
+ int getprio(handle_t thread);
+ int setprio(handle_t thread, int priority);
+ clock_t threadtimes(handle_t thread, struct tms *tms);
+ clock_t times(struct tms *tms);
+ int msleep(int millisecs);
+ unsigned sleep(unsigned seconds);
+ struct tib *gettib();
+ int spawn(int mode, const char *pgm, const char *cmdline, char *env[], struct tib **tibptr);
+ int spawnve(int mode, const char *pgm, char *argv[], char *env[], struct tib **tibptr);
+ int spawnv(int mode, const char *pgm, char *argv[]);
+ int spawnl(int mode, const char *pgm, char *arg0, ...);
+ void exit(int status);
+ void _exit(int status);
 
-osapi handle_t beginthread(void (__stdcall *startaddr)(void *), unsigned int stacksize, void *arg, int flags, char *name, struct tib **ptib);
-osapi int suspend(handle_t thread);
-osapi int resume(handle_t thread);
-osapi struct tib *getthreadblock(handle_t thread);
-osapi handle_t getprochandle(pid_t pid);
-osapi void endthread(int status);
-osapi tid_t gettid();
-osapi pid_t getpid();
-osapi pid_t getppid();
-osapi int getchildstat(pid_t pid, int *status);
-osapi int setchildstat(pid_t pid, int status);
-osapi int setcontext(handle_t thread, void *context);
-osapi int getcontext(handle_t thread, void *context);
-osapi int getprio(handle_t thread);
-osapi int setprio(handle_t thread, int priority);
-osapi clock_t threadtimes(handle_t thread, struct tms *tms);
-osapi clock_t times(struct tms *tms);
-osapi int msleep(int millisecs);
-osapi unsigned sleep(unsigned seconds);
-osapi struct tib *gettib();
-osapi int spawn(int mode, const char *pgm, const char *cmdline, char *env[], struct tib **tibptr);
-osapi int spawnve(int mode, const char *pgm, char *argv[], char *env[], struct tib **tibptr);
-osapi int spawnv(int mode, const char *pgm, char *argv[]);
-osapi int spawnl(int mode, const char *pgm, char *arg0, ...);
-osapi void exit(int status);
-osapi void _exit(int status);
+ sighandler_t signal(int signum, sighandler_t handler);
+ int raise(int signum);
+ int kill(pid_t pid, int signum);
+ int sendsig(handle_t thread, int signum);
+ void sigexit(struct siginfo *info, int action);
+ char *strsignal(int signum);
 
-osapi sighandler_t signal(int signum, sighandler_t handler);
-osapi int raise(int signum);
-osapi int kill(pid_t pid, int signum);
-osapi int sendsig(handle_t thread, int signum);
-osapi void sigexit(struct siginfo *info, int action);
-osapi char *strsignal(int signum);
+ int sigemptyset(sigset_t *set);
+ int sigfillset(sigset_t *set);
+ int sigaddset(sigset_t *set, int signum);
+ int sigdelset(sigset_t *set, int signum);
+ int sigismember(sigset_t *set, int signum);
 
-osapi int sigemptyset(sigset_t *set);
-osapi int sigfillset(sigset_t *set);
-osapi int sigaddset(sigset_t *set, int signum);
-osapi int sigdelset(sigset_t *set, int signum);
-osapi int sigismember(sigset_t *set, int signum);
+ int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);
+ int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
+ int sigpending(sigset_t *set);
+ int sigsuspend(const sigset_t *mask);
+ unsigned alarm(unsigned seconds);
 
-osapi int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);
-osapi int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
-osapi int sigpending(sigset_t *set);
-osapi int sigsuspend(const sigset_t *mask);
-osapi unsigned alarm(unsigned seconds);
+ time_t time(time_t *timeptr);
+ int gettimeofday(struct timeval *tv, void *tzp);
+ int settimeofday(struct timeval *tv);
+ clock_t clock();
 
-osapi time_t time(time_t *timeptr);
-osapi int gettimeofday(struct timeval *tv, void *tzp);
-osapi int settimeofday(struct timeval *tv);
-osapi clock_t clock();
+ void openlog(char *ident, int option, int facility);
+ void closelog();
+ int setlogmask(int mask);
+ void syslog(int pri, const char *fmt, ...);
+ void vsyslog(int pri, const char *fmt, va_list args);
 
-osapi void openlog(char *ident, int option, int facility);
-osapi void closelog();
-osapi int setlogmask(int mask);
-osapi void syslog(int pri, const char *fmt, ...);
-osapi void vsyslog(int pri, const char *fmt, va_list args);
+ void panic(const char *msg);
+ int canonicalize(const char *filename, char *buffer, int size);
 
-osapi void panic(const char *msg);
-osapi int canonicalize(const char *filename, char *buffer, int size);
+ void mkcs(critsect_t cs);
+ void csfree(critsect_t cs);
+ void enter(critsect_t cs);
+ void leave(critsect_t cs);
 
-osapi void mkcs(critsect_t cs);
-osapi void csfree(critsect_t cs);
-osapi void enter(critsect_t cs);
-osapi void leave(critsect_t cs);
-
-osapi void *_lmalloc(size_t size);
-osapi void *_lrealloc(void *mem, size_t size);
-osapi void *_lcalloc(size_t num, size_t size);
-osapi void _lfree(void *p);
+ void *_lmalloc(size_t size);
+ void *_lrealloc(void *mem, size_t size);
+ void *_lcalloc(size_t num, size_t size);
+ void _lfree(void *p);
 
 #ifdef USE_LOCAL_HEAP
 
@@ -1601,90 +1597,87 @@ osapi void _lfree(void *p);
 #define free(p) _lfree(p)
 
 #else
-osapi void *malloc(size_t size);
-osapi void *realloc(void *mem, size_t size);
-osapi void *calloc(size_t num, size_t size);
-osapi void free(void *p);
+ void *malloc(size_t size);
+ void *realloc(void *mem, size_t size);
+ void *calloc(size_t num, size_t size);
+ void free(void *p);
 #endif
 
-osapi struct mallinfo mallinfo();
-osapi int malloc_usable_size(void *p);
+ struct mallinfo mallinfo();
+ int malloc_usable_size(void *p);
 
-osapi hmodule_t dlopen(const char *name, int mode);
-osapi int dlclose(hmodule_t hmod);
-osapi void *dlsym(hmodule_t hmod, const char *procname);
-osapi char *dlerror();
-osapi hmodule_t getmodule(const char *name);
-osapi int getmodpath(hmodule_t hmod, char *buffer, int size);
-osapi int exec(hmodule_t hmod, const char *args, char *env[]);
-osapi void *getresdata(hmodule_t hmod, int type, char *name, int lang, int *len);
-osapi int getreslen(hmodule_t hmod, int type, char *name, int lang);
-osapi struct verinfo *getverinfo(hmodule_t hmod);
-osapi int getvervalue(hmodule_t hmod, char *name, char *buf, int size);
+ hmodule_t dlopen(const char *name, int mode);
+ int dlclose(hmodule_t hmod);
+ void *dlsym(hmodule_t hmod, const char *procname);
+ char *dlerror();
+ hmodule_t getmodule(const char *name);
+ int getmodpath(hmodule_t hmod, char *buffer, int size);
+ int exec(hmodule_t hmod, const char *args, char *env[]);
+ void *getresdata(hmodule_t hmod, int type, char *name, int lang, int *len);
+ int getreslen(hmodule_t hmod, int type, char *name, int lang);
+ struct verinfo *getverinfo(hmodule_t hmod);
+ int getvervalue(hmodule_t hmod, char *name, char *buf, int size);
 
-osapi tls_t tlsalloc();
-osapi void tlsfree(tls_t index);
-osapi void *tlsget(tls_t index);
-osapi int tlsset(tls_t index, void *value);
+ tls_t tlsalloc();
+ void tlsfree(tls_t index);
+ void *tlsget(tls_t index);
+ int tlsset(tls_t index, void *value);
 
-osapi int accept(int s, struct sockaddr *addr, int *addrlen);
-osapi int bind(int s, const struct sockaddr *name, int namelen);
-osapi int connect(int s, const struct sockaddr *name, int namelen);
-osapi int getpeername(int s, struct sockaddr *name, int *namelen);
-osapi int getsockname(int s, struct sockaddr *name, int *namelen);
-osapi int getsockopt(int s, int level, int optname, void *optval, int *optlen);
-osapi int listen(int s, int backlog);
-osapi int recv(int s, void *data, int size, unsigned int flags);
-osapi int recvfrom(int s, void *data, int size, unsigned int flags, struct sockaddr *from, int *fromlen);
-osapi int recvmsg(int s, struct msghdr *hdr, unsigned int flags);
-osapi int send(int s, const void *data, int size, unsigned int flags);
-osapi int sendto(int s, const void *data, int size, unsigned int flags, const struct sockaddr *to, int tolen);
-osapi int sendmsg(int s, struct msghdr *hdr, unsigned int flags);
-osapi int setsockopt(int s, int level, int optname, const void *optval, int optlen);
-osapi int shutdown(int s, int how);
-osapi int socket(int domain, int type, int protocol);
+ int accept(int s, struct sockaddr *addr, int *addrlen);
+ int bind(int s, const struct sockaddr *name, int namelen);
+ int connect(int s, const struct sockaddr *name, int namelen);
+ int getpeername(int s, struct sockaddr *name, int *namelen);
+ int getsockname(int s, struct sockaddr *name, int *namelen);
+ int getsockopt(int s, int level, int optname, void *optval, int *optlen);
+ int listen(int s, int backlog);
+ int recv(int s, void *data, int size, unsigned int flags);
+ int recvfrom(int s, void *data, int size, unsigned int flags, struct sockaddr *from, int *fromlen);
+ int recvmsg(int s, struct msghdr *hdr, unsigned int flags);
+ int send(int s, const void *data, int size, unsigned int flags);
+ int sendto(int s, const void *data, int size, unsigned int flags, const struct sockaddr *to, int tolen);
+ int sendmsg(int s, struct msghdr *hdr, unsigned int flags);
+ int setsockopt(int s, int level, int optname, const void *optval, int optlen);
+ int shutdown(int s, int how);
+ int socket(int domain, int type, int protocol);
 
-osapi int res_send(const char *buf, int buflen, char *answer, int anslen);
-osapi int res_query(const char *dname, int cls, int type, unsigned char *answer, int anslen);
-osapi int res_search(const char *name, int cls, int type, unsigned char *answer, int anslen);
-osapi int res_querydomain(const char *name, const char *domain, int cls, int type, unsigned char *answer, int anslen); 
-osapi int res_mkquery(int op, const char *dname, int cls, int type, char *data, int datalen, unsigned char *newrr, char *buf, int buflen);
-osapi int dn_comp(const char *src, unsigned char *dst, int dstsiz, unsigned char **dnptrs, unsigned char **lastdnptr);
-osapi int dn_expand(const unsigned char *msg, const unsigned char *eom, const unsigned char *src,  char *dst, int dstsiz);
+ int res_send(const char *buf, int buflen, char *answer, int anslen);
+ int res_query(const char *dname, int cls, int type, unsigned char *answer, int anslen);
+ int res_search(const char *name, int cls, int type, unsigned char *answer, int anslen);
+ int res_querydomain(const char *name, const char *domain, int cls, int type, unsigned char *answer, int anslen); 
+ int res_mkquery(int op, const char *dname, int cls, int type, char *data, int datalen, unsigned char *newrr, char *buf, int buflen);
+ int dn_comp(const char *src, unsigned char *dst, int dstsiz, unsigned char **dnptrs, unsigned char **lastdnptr);
+ int dn_expand(const unsigned char *msg, const unsigned char *eom, const unsigned char *src,  char *dst, int dstsiz);
 
-osapi struct hostent *gethostbyname(const char *name);
-osapi struct hostent *gethostbyaddr(const char *addr, int len, int type);
-osapi char *inet_ntoa(struct in_addr in);
-osapi unsigned long inet_addr(const char *cp);
+ struct hostent *gethostbyname(const char *name);
+ struct hostent *gethostbyaddr(const char *addr, int len, int type);
+ char *inet_ntoa(struct in_addr in);
+ unsigned long inet_addr(const char *cp);
 
-osapi int gethostname(char *name, int namelen);
-osapi struct protoent *getprotobyname(const char *name);
-osapi struct protoent *getprotobynumber(int proto);
-osapi struct servent *getservbyname(const char *name, const char *proto);
-osapi struct servent *getservbyport(int port, const char *proto);
+ int gethostname(char *name, int namelen);
+ struct protoent *getprotobyname(const char *name);
+ struct protoent *getprotobynumber(int proto);
+ struct servent *getservbyname(const char *name, const char *proto);
+ struct servent *getservbyport(int port, const char *proto);
 
-osapi char *getenv(const char *name);
-osapi int setenv(const char *name, const char *value, int overwrite);
-osapi int unsetenv(const char *name);
-osapi int putenv(const char *str);
+ char *getenv(const char *name);
+ int setenv(const char *name, const char *value, int overwrite);
+ int unsetenv(const char *name);
+ int putenv(const char *str);
 
-osapi struct section *osconfig();
-osapi struct peb *getpeb();
+ struct section *osconfig();
+ struct peb *getpeb();
 
-osapi int __getstdhndl(int n);
+ int __getstdhndl(int n);
 
-#ifndef errno
-osapi int *_errno();
-#define errno (*_errno())
-#endif
+#include <errno.h>
 
 #ifndef fmode
-osapi int *_fmode();
+ int *_fmode();
 #define fmode (*_fmode())
 #endif
 
 #ifndef environ
-osapi char ***_environ();
+ char ***_environ();
 #define environ (*_environ())
 #endif
 
@@ -1695,3 +1688,5 @@ osapi char ***_environ();
 #endif
 
 #endif
+
+

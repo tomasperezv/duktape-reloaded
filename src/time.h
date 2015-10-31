@@ -110,8 +110,8 @@ time_t mktime(struct tm *tmbuf);
 
 size_t strftime(char *s, size_t maxsize, const char *format, const struct tm *t);
 
-osapi clock_t clock();
-osapi time_t time(time_t *timeptr);
+clock_t clock();
+time_t time(time_t *timeptr);
 
 char *asctime_r(const struct tm *tm, char *buf);
 char *ctime_r(const time_t *timer, char *buf);

@@ -119,7 +119,7 @@ char *gets(char *buf);
 int puts(const char *string);
 
 size_t fread(void *buffer, size_t size, size_t num, FILE *stream);
-size_t fwrite(const void *buffer, size_t size, size_t num, FILE *stream);
+size_t fwrite(const void *buffer, size_t size, size_t count, FILE *stream);
 
 int fseek(FILE *stream, long offset, int whence);
 long ftell(FILE *stream);
@@ -137,7 +137,7 @@ int ungetc(int c, FILE *stream);
 int fready(FILE *stream);
 
 int remove(const char *filename);
-osapi int rename(const char *oldname, const char *newname);
+int rename(const char *oldname, const char *newname);
 
 FILE *tmpfile();
 char *tmpnam(char *string);

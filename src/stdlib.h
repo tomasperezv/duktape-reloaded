@@ -72,7 +72,7 @@ long atol(const char *string);
 int atexit(void (*func)(void));
 void *bsearch(const void *key, const void *base, size_t num, size_t width, int (*compare)(const void *, const void *));
 div_t div(int numer, int denom);
-osapi void exit(int status);
+void exit(int status);
 char *itoa(int val, char *buf, int radix);
 long labs(long n);
 ldiv_t ldiv(long numer, long denom);
@@ -96,10 +96,10 @@ char *fcvt(double arg, int ndigits, int *decpt, int *sign);
 char *fcvtbuf(double arg, int ndigits, int *decpt, int *sign, char *buf);
 
 #ifdef USE_LOCAL_HEAP
-osapi void *_lmalloc(size_t size);
-osapi void *_lrealloc(void *mem, size_t size);
-osapi void *_lcalloc(size_t num, size_t size);
-osapi void _lfree(void *p);
+void *_lmalloc(size_t size);
+void *_lrealloc(void *mem, size_t size);
+void *_lcalloc(size_t num, size_t size);
+void _lfree(void *p);
 
 #define malloc(n) _lmalloc(n)
 #define realloc(p, n) _lrealloc((p), (n))
@@ -107,13 +107,13 @@ osapi void _lfree(void *p);
 #define free(p) _lfree(p)
 
 #else
-osapi void *malloc(size_t size);
-osapi void *realloc(void *mem, size_t size);
-osapi void *calloc(size_t num, size_t size);
-osapi void free(void *p);
+void *malloc(size_t size);
+void *realloc(void *mem, size_t size);
+void *calloc(size_t num, size_t size);
+void free(void *p);
 #endif
 
-osapi int malloc_usable_size(void *p);
+ int malloc_usable_size(void *p);
 
 #ifndef NOGETOPTION
 char *get_option(char *opts, char *name, char *buffer, int size, char *defval);
@@ -137,10 +137,10 @@ char *mkdtemp(char *tmpl);
 int mkstemp(char *tmpl);
 int mkstemps(char *tmpl, int suffixlen);
 
-osapi char *getenv(const char *name);
-osapi int setenv(const char *name, const char *value, int overwrite);
-osapi int unsetenv(const char *name);
-osapi int putenv(const char *str);
+char *getenv(const char *name);
+int setenv(const char *name, const char *value, int overwrite);
+int unsetenv(const char *name);
+int putenv(const char *str);
 
 #ifdef  __cplusplus
 }
@@ -155,3 +155,5 @@ osapi int putenv(const char *str);
 #endif
 
 #endif
+
+

@@ -80,8 +80,8 @@ char *strtok(char *string, const char *control);
 char *strtok_r(char *string, const char *control, char **lasts);
 char *strsep(char **stringp, const char *delim);
 
-osapi char *strerror(int errnum);
-osapi char *strsignal(int signum);
+char *strerror(int errnum);
+char *strsignal(int signum);
 
 void *memmove(void *dst, const void *src, size_t n);
 void *memchr(const void *buf, int ch, size_t n);

@@ -79,42 +79,20 @@ int vprintf(const char *fmt, va_list args) {
   return vfprintf(stdout, fmt, args);
 }
 
+int xxprintf(const char *fmt, ...) {
+  va_list args;
+
+  va_start(args, fmt);
+  vfprintf(stdout, fmt, args);
+  return vfprintf(stdout, fmt, args);
+}
+
 int printf(const char *fmt, ...) {
   va_list args;
 
   va_start(args, fmt);
+  vfprintf(stdout, fmt, args);
   return vfprintf(stdout, fmt, args);
-}
-
-int vsprintf(char *buf, const char *fmt, va_list args) {
-  FILE str;
-  int rc;
-
-  str.cnt = INT_MAX;
-  str.flag = _IOWR | _IOSTR;
-  str.ptr = str.base = buf;
-
-  rc = _output(&str, fmt, args);
-  if (buf != NULL) putc('\0', &str);
-
-  return rc;
-}
-
-int sprintf(char *buf, const char *fmt, ...) {
-  va_list args;
-  FILE str;
-  int rc;
-
-  va_start(args, fmt);
-
-  str.cnt = INT_MAX;
-  str.flag = _IOWR | _IOSTR;
-  str.ptr = str.base = buf;
-
-  rc = _output(&str, fmt, args);
-  if (buf != NULL) putc('\0', &str);
-
-  return rc;
 }
 
 int vsnprintf(char *buf, size_t count, const char *fmt, va_list args) {

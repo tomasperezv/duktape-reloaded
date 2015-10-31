@@ -170,20 +170,6 @@ typedef __int64 systime_t;
 #endif
 #endif
 
-#ifndef _ONLY_STD_TYPES
-
-#ifndef osapi
-#ifdef OS_LIB
-#define osapi __declspec(dllexport)
-#else
-#ifdef KERNEL
-#define osapi
-#else
-#define osapi __declspec(dllimport)
-#endif
-#endif
-#endif
-
 #ifndef FALSE
 #define FALSE 0
 #endif
@@ -200,7 +186,5 @@ typedef unsigned char BYTE;
 typedef unsigned short WORD;
 typedef unsigned long DWORD;
 typedef unsigned __int64 QWORD;
-
-#endif
 
 #endif
